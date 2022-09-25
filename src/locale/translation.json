@@ -1,0 +1,67 @@
+{
+    "headerTitle": {
+        "en": "Your journey to master the Qur'an begins here",
+        "sv": "Din resa för att behärska koranen börjar här",
+        "ar": "هنا تبدأ رحلتك لإتقان القرآن"
+    },
+    "headerSubTitle": {
+        "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "sv": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "ar": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    "quranTitle": {
+        "en": "The holy Quran",
+        "sv": "Den heliga koranen",
+        "ar": "القران الكريم"
+    },
+    "courses": {
+        "en": "Courses",
+        "sv": "Kurser",
+        "ar": "الدورات"
+    },
+    "quran": {
+        "en": "The Quran",
+        "sv": "Koranen",
+        "ar": "القران الكريم"
+    },
+    "nav_home": {
+        "en": "Home",
+        "sv": "Hem",
+        "ar": "الصفحه الرئيسيه"
+    },
+    "nav_wordKnowladge": {
+        "en": "Word knowledge",
+        "sv": "Ordkunskap",
+        "ar": "معرفة كلمة"
+    },
+    "nav_materials": {
+        "en": "Materials",
+        "sv": "Material",
+        "ar": "المواد"
+    },
+    "nav_aboutus": {
+        "en": "About us",
+        "sv": "Om oss",
+        "ar": "عنا"
+    },
+    "arabicFontSize": {
+        "en": "Arabic font size",
+        "sv": "Arabiskt font storlke",
+        "ar": "حجم الخط العربي"
+    },
+    "translationFontSize": {
+        "en": "Translation font size",
+        "sv": "Översättnings font storlek",
+        "ar": "حجم خط الترجمة"
+    },
+    "tooltip": {
+        "en": "Tooltip",
+        "sv": "verktygstips",
+        "ar": "تلميح"
+    },
+    "searchPlaceHolder": {
+        "en": "Search for a Surah",
+        "sv": "Sök efter en Surah",
+        "ar": "ابحث عن سورة"
+    }
+}
