@@ -146,8 +146,8 @@ function QuranChapter() {
   }, []);
 
   const playWord = (audioUrl) => {
-    var gfg = document.getElementsByTagName("audio");
-    gfg.pause();
+    // var gfg = document.getElementsByTagName("audio");
+    // gfg.pause();
 
     let audio = new Audio(audioUrl);
     audio.play();
