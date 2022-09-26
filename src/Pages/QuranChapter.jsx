@@ -145,6 +145,21 @@ function QuranChapter() {
     }
   }, []);
 
+  const playWord = (audioUrl) => {
+    var gfg = document.getElementsByTagName("audio");
+    gfg.pause();
+
+    let audio = new Audio(audioUrl);
+    audio.play();
+    console.log(audio);
+  };
+
+  const playVerse = (audioUrl) => {
+    let audio = new Audio(audioUrl);
+    audio.play();
+    console.log(audio);
+  };
+
   const VerseSkeleton = () => {
     const repeatAmount = 10;
     return (
@@ -306,7 +321,12 @@ function QuranChapter() {
                 </Typography>
                 <Box sx={styles.playButton}>
                   <Box sx={styles.rhombus}>
-                    <PlayArrowIcon style={styles.playIcon} />
+                    <PlayArrowIcon
+                      onClick={() => {
+                        playVerse(verse.audio.url);
+                      }}
+                      style={styles.playIcon}
+                    />
                   </Box>
                 </Box>
                 <MoreHorizTwoToneIcon
@@ -328,6 +348,7 @@ function QuranChapter() {
                           disableHoverListener={!toolTipEnabled}
                         >
                           <Typography
+                            onClick={() => playWord(word.audio_url)}
                             className="amiri-quran"
                             sx={{
                               ...styles.arabicWord,
@@ -349,7 +370,7 @@ function QuranChapter() {
                     </div>
                   ))}
                 </Box>
-                <Box sx={styles.translatedText}>
+                <div className="flex flex-wrap mt-4 justify-end font-poppins">
                   {verse.words.map((word, index) => (
                     <div className="" key={index}>
                       {index < verse.words.length - 1 ? (
@@ -364,7 +385,7 @@ function QuranChapter() {
                       ) : null}
                     </div>
                   ))}
-                </Box>
+                </div>
               </Box>
             </Box>
           ))
@@ -428,15 +449,6 @@ const styles = {
       backgroundColor: Colors.primaryLight20,
       borderRadius: "0.5rem",
     },
-  },
-  translatedText: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    marginTop: "1rem",
-    justifySelf: "flex-end",
-    fontFamily: "Poppins",
-    marginLeft: "1rem",
   },
   verseInfo: {
     display: "flex",

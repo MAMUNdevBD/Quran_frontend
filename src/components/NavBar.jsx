@@ -82,10 +82,11 @@ function NavBar({ isMobile, isDarkMode, setIsDarkMode }) {
 
   return (
     <>
-      <div style={styles.container}>
-        <div
-          style={{ ...styles.leftContainer, width: isMobile ? "100%" : "auto" }}
-        >
+      <div
+        style={styles.container}
+        className="flex justify-between rounded-full z-50 items-center h-20"
+      >
+        <div className="flex justify-between w-full items-center">
           <a
             href="/"
             style={{
@@ -99,19 +100,12 @@ function NavBar({ isMobile, isDarkMode, setIsDarkMode }) {
           </a>
           {!isMobile ? (
             <>
-              <div style={styles.menuItems}>
+              <div className="flex justify-center w-full">
                 {menuItems.map((item, index) => (
                   <div className="" key={index}>
                     <a href={item.link} style={styles.menuItem}>
                       {item.name}
                     </a>
-                    {index !== menuItems.length - 1 && (
-                      <Divider
-                        orientation="vertical"
-                        variant="middle"
-                        flexItem
-                      />
-                    )}
                   </div>
                 ))}
               </div>
@@ -229,24 +223,17 @@ function NavBar({ isMobile, isDarkMode, setIsDarkMode }) {
 const styles = {
   container: {
     backgroundColor: Colors.primary,
-    height: "5rem",
-    borderRadius: "1.5rem",
-    width: "100%",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    zIndex: "100",
+    // height: "5rem",
+    // borderRadius: "1.5rem",
+    // width: "100%",
+    // display: "flex",
+    // justifyContent: "space-between",
+    // alignItems: "center",
+    // zIndex: "100",
   },
   logo: {
     height: "3.5rem",
     paddingLeft: "2rem",
-  },
-  menuItems: {
-    marginLeft: "5rem",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
   },
   menuItem: {
     margin: "0 1rem",
