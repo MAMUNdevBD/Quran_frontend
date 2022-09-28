@@ -41,6 +41,7 @@ function QuranChapter() {
   const [showControl, setShowControl] = useState(false);
 
   console.log(audio?.audioEl);
+  console.log(verseAudios);
 
   const playAudio = () => {
     audio.audioEl.current.play();
@@ -50,6 +51,26 @@ function QuranChapter() {
   const pauseAudio = () => {
     audio.audioEl.current.pause();
     setAudioPlaying(false);
+  };
+
+  const nextAudio = () => {
+    console.log(currentAudio);
+    const i = verseAudios.findIndex((ele) => {
+      return ele === currentAudio ? true : false;
+    });
+    setCurrentAudio(verseAudios[i + 1]);
+    audio.audioEl.current.play();
+  };
+
+  const prevAudio = () => {
+    console.log(currentAudio);
+    const i = verseAudios.findIndex((ele) => {
+      return ele === currentAudio ? true : false;
+    });
+    if (i !== 0) {
+      setCurrentAudio(verseAudios[i - 1]);
+      audio.audioEl.current.play();
+    }
   };
 
   const [verses, setVerses] = React.useState([]);
@@ -81,6 +102,7 @@ function QuranChapter() {
     setVerseInfo(info.chapter);
     setVerses([...verses, ...data.verses]);
     setIsNextPage(data.pagination.total_pages > page);
+    setVerseAudios(data?.verses.map((v) => v.audio.url));
   };
 
   const handleTooltipChange = (e) => {
@@ -211,7 +233,7 @@ function QuranChapter() {
       <ReactAudioPlayer
         src={currentAudio}
         autoPlay
-        controls
+        // controls
         ref={(element) => {
           setAudio(element);
         }}
@@ -225,14 +247,23 @@ function QuranChapter() {
       {showControl && (
         <div className="fixed z-50 flex items-center justify-center bottom-0 left-0 w-full bg-gray-800 h-10">
           <div className="text-white flex gap-6">
-            <FastRewind />
+            <FastRewind
+              className="cursor-pointer"
+              onClick={() => prevAudio()}
+            />
             {audioPlaying ? (
               <Pause onClick={() => pauseAudio()} />
             ) : (
-              <PlayArrow onClick={() => playAudio()} />
+              <PlayArrow
+                className="cursor-pointer"
+                onClick={() => playAudio()}
+              />
             )}
 
-            <FastForward />
+            <FastForward
+              className="cursor-pointer"
+              onClick={() => nextAudio()}
+            />
           </div>
         </div>
       )}
@@ -351,13 +382,14 @@ function QuranChapter() {
           </Typography>
         )} */}
       </Box>
-      <InfiniteScroll
+      <div className="container mx-auto">
+        {/* <InfiniteScroll
         style={styles.container}
         dataLength={verses.length}
         // next={getVerses}
         // hasMore={isNextPage}
         loader={<VerseSkeleton />}
-      >
+      > */}
         {verses.length === 0 ? (
           <VerseSkeleton />
         ) : (
@@ -439,7 +471,8 @@ function QuranChapter() {
             </Box>
           ))
         )}
-      </InfiniteScroll>
+        {/* </InfiniteScroll> */}
+      </div>
       <Menu
         anchorEl={anchorEl}
         open={verseOverFlowMenuOpen}
