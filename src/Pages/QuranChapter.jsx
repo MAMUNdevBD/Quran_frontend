@@ -22,6 +22,8 @@ import Cookies from "universal-cookie";
 import MoreHorizTwoToneIcon from "@mui/icons-material/MoreHorizTwoTone";
 import SearchIcon from "@mui/icons-material/Search";
 import SurahSearchMenu from "../components/SurahSearchMenu";
+import { useState } from "react";
+import ReactAudioPlayer from "react-audio-player";
 
 const MENU_WIDTH = window.innerWidth > 600 ? "25%" : "75%";
 const FONT_INCREMENT_STEP = 0.5;
@@ -30,6 +32,9 @@ function QuranChapter() {
   const { chapter_number } = useParams();
 
   const cookies = new Cookies();
+
+  const [currentAudio, setCurrentAudio] = useState("");
+  const [verseAudios, setVerseAudios] = useState("");
 
   const [verses, setVerses] = React.useState([]);
   const [verseInfo, setVerseInfo] = React.useState({});
@@ -189,6 +194,7 @@ function QuranChapter() {
 
   return (
     <Box>
+      <ReactAudioPlayer src={currentAudio} autoPlay controls />
       <Box
         onClick={handleSettingsMenuButtonClick}
         sx={{
@@ -323,7 +329,7 @@ function QuranChapter() {
                   <Box sx={styles.rhombus}>
                     <PlayArrowIcon
                       onClick={() => {
-                        playVerse(verse.audio.url);
+                        setCurrentAudio(verse.audio.url);
                       }}
                       style={styles.playIcon}
                     />
@@ -348,7 +354,7 @@ function QuranChapter() {
                           disableHoverListener={!toolTipEnabled}
                         >
                           <Typography
-                            onClick={() => playWord(word.audio_url)}
+                            onClick={() => setCurrentAudio(word.audio_url)}
                             className="amiri-quran"
                             sx={{
                               ...styles.arabicWord,
