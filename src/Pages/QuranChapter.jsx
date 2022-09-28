@@ -239,7 +239,6 @@ function QuranChapter() {
         }}
         onPlay={() => {
           setAudioPlaying(true);
-          setShowControl(true);
         }}
         onEnded={() => setAudioPlaying(false)}
       />
@@ -405,6 +404,7 @@ function QuranChapter() {
                       onClick={() => {
                         setCurrentAudio(verse.audio.url);
                         audio.audioEl.current.play();
+                        setShowControl(true);
                       }}
                       style={styles.playIcon}
                     />
