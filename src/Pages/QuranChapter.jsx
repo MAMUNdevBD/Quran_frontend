@@ -40,7 +40,7 @@ function QuranChapter() {
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [showControl, setShowControl] = useState(false);
 
-  console.log(audio.audioEl);
+  console.log(audio?.audioEl);
 
   const playAudio = () => {
     audio.audioEl.current.play();
