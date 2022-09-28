@@ -24,6 +24,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import SurahSearchMenu from "../components/SurahSearchMenu";
 import { useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
+import { FastForward, FastRewind, Pause, PlayArrow } from "@mui/icons-material";
 
 const MENU_WIDTH = window.innerWidth > 600 ? "25%" : "75%";
 const FONT_INCREMENT_STEP = 0.5;
@@ -35,6 +36,21 @@ function QuranChapter() {
 
   const [currentAudio, setCurrentAudio] = useState("");
   const [verseAudios, setVerseAudios] = useState("");
+  const [audio, setAudio] = useState();
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  const [showControl, setShowControl] = useState(false);
+
+  console.log(audio.audioEl);
+
+  const playAudio = () => {
+    audio.audioEl.current.play();
+    setAudioPlaying(true);
+  };
+
+  const pauseAudio = () => {
+    audio.audioEl.current.pause();
+    setAudioPlaying(false);
+  };
 
   const [verses, setVerses] = React.useState([]);
   const [verseInfo, setVerseInfo] = React.useState({});
@@ -53,8 +69,6 @@ function QuranChapter() {
   const handleOpenVerseOverFlowMenu = (event, verseNumber) => {
     setAnchorEl(event.currentTarget);
   };
-
-  console.log(verses);
 
   const handleCloseVerseOverFlowMenu = () => {
     setAnchorEl(null);
@@ -194,7 +208,35 @@ function QuranChapter() {
 
   return (
     <Box>
-      <ReactAudioPlayer src={currentAudio} autoPlay controls />
+      <ReactAudioPlayer
+        src={currentAudio}
+        autoPlay
+        controls
+        ref={(element) => {
+          setAudio(element);
+        }}
+        onPlay={() => {
+          setAudioPlaying(true);
+          setShowControl(true);
+        }}
+        onEnded={() => setAudioPlaying(false)}
+      />
+      {/* Audio controller */}
+      {showControl && (
+        <div className="fixed z-50 flex items-center justify-center bottom-0 left-0 w-full bg-gray-800 h-10">
+          <div className="text-white flex gap-6">
+            <FastRewind />
+            {audioPlaying ? (
+              <Pause onClick={() => pauseAudio()} />
+            ) : (
+              <PlayArrow onClick={() => playAudio()} />
+            )}
+
+            <FastForward />
+          </div>
+        </div>
+      )}
+      {/* Audio controller end */}
       <Box
         onClick={handleSettingsMenuButtonClick}
         sx={{
@@ -312,8 +354,8 @@ function QuranChapter() {
       <InfiniteScroll
         style={styles.container}
         dataLength={verses.length}
-        next={getVerses}
-        hasMore={isNextPage}
+        // next={getVerses}
+        // hasMore={isNextPage}
         loader={<VerseSkeleton />}
       >
         {verses.length === 0 ? (
@@ -330,6 +372,7 @@ function QuranChapter() {
                     <PlayArrowIcon
                       onClick={() => {
                         setCurrentAudio(verse.audio.url);
+                        audio.audioEl.current.play();
                       }}
                       style={styles.playIcon}
                     />
