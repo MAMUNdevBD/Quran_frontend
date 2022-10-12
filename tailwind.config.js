@@ -6,6 +6,9 @@ module.exports = {
       fontFamily: {
         poppins: ["Poppins"],
       },
+      container: {
+        center: true,
+      },
     },
   },
   plugins: [],

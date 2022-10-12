@@ -12,6 +12,7 @@ import QuranChapter from "./Pages/QuranChapter";
 import Cookies from "universal-cookie";
 import { setLanguage } from "./locale/translate";
 import MainLayout from "./layouts/MainLayout";
+import axios from "axios";
 
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -19,6 +20,8 @@ function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const cookies = new Cookies();
+
+  axios.defaults.baseURL = "http://127.0.0.1:3030";
 
   const darkTheme = createTheme({
     palette: {

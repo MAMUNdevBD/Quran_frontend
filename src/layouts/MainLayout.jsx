@@ -3,15 +3,13 @@ import NavBar from "../components/site/NavBar";
 import SideBarLeft from "../components/site/SideBarLeft";
 import SideBarRight from "../components/site/SideBarRight";
 
-const MainLayout = () => {
+const MainLayout = ({ children }) => {
   return (
     <>
       <NavBar />
       <SideBarLeft />
       <SideBarRight />
-      <div>
-        <slot />
-      </div>
+      <div className="bg-[#1F2125] min-h-screen">{children}</div>
     </>
   );
 };
