@@ -43,7 +43,7 @@ export async function fetchQuranVerses(
 ) {
   const url = `${quran_api_url}/verses/by_chapter/${chapter_number}?language=${
     cookies.get("language") || "sv"
-  }&per_page=20&page=${page}&recitation=${recitation}&translations=${translations}`;
+  }&page=${page}&recitation=${recitation}&translations=${translations}`;
   return await sendGetRequest(url);
 }
 

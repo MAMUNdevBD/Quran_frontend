@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         poppins: ["Poppins"],
+        arabic: ["Scheherazade New"],
       },
       container: {
         center: true,

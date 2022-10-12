@@ -8,7 +8,9 @@ const NavBar = () => {
       <div className="container flex justify-between items-center h-14 text-xl">
         <div className="flex gap-3 items-center">
           <MdOutlineMenu className="" />
-          <h1 className="text-lg">Studerakoranen</h1>
+          <a href={"/"} className="text-lg">
+            Studerakoranen
+          </a>
         </div>
         <div className="">
           <AiOutlineUser />

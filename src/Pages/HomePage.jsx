@@ -4,7 +4,7 @@ import SurahList from "../components/surah/SurahList";
 
 const HomePage = () => {
   return (
-    <div className="container">
+    <div className="container px-5">
       <div className="py-10">
         <svg
           className="w-52 fill-white mx-auto"
@@ -19,12 +19,12 @@ const HomePage = () => {
       </div>
       {/* search */}
       <div className="mb-10">
-        <div className="flex items-center gap-3 mx-auto w-max bg-white rounded-full px-5 py-1">
+        <div className="flex items-center gap-3 mx-auto lg:w-max bg-white rounded-full px-5 py-1">
           <HiOutlineSearch className="text-gray-500 text=lg" />
           <input
             type="search"
             placeholder="What do you want to read?"
-            className="bg-transparent w-[30rem] py-2 focus:outline-none"
+            className="bg-transparent lg:w-[30rem] py-2 focus:outline-none"
           />
         </div>
       </div>

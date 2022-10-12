@@ -1,9 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const SurahListSingle = ({ surah }) => {
-  console.log(surah);
-
   return (
     <Link
       to={"/chapter/" + surah.id}
