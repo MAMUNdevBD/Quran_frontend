@@ -40,8 +40,8 @@ function QuranChapter() {
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [showControl, setShowControl] = useState(false);
 
-  console.log(audio?.audioEl);
-  console.log(verseAudios);
+  // console.log(audio?.audioEl);
+  // console.log(verseAudios);
 
   const playAudio = () => {
     audio.audioEl.current.play();
@@ -58,6 +58,7 @@ function QuranChapter() {
     const i = verseAudios.findIndex((ele) => {
       return ele === currentAudio ? true : false;
     });
+    console.log(verseAudios.length, i);
     setCurrentAudio(verseAudios[i + 1]);
     audio.audioEl.current.play();
   };
