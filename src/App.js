@@ -21,7 +21,7 @@ function App() {
 
   const cookies = new Cookies();
 
-  axios.defaults.baseURL = "http://127.0.0.1:3030";
+  axios.defaults.baseURL = "http://82.102.0.98:3008:3030";
 
   const darkTheme = createTheme({
     palette: {
