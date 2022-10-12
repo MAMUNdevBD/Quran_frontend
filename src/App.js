@@ -21,7 +21,7 @@ function App() {
 
   const cookies = new Cookies();
 
-  axios.defaults.baseURL = "http://82.102.0.98:3030";
+  axios.defaults.baseURL = "https://api.studerakoranen.nu";
 
   const darkTheme = createTheme({
     palette: {
