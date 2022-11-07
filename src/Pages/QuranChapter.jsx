@@ -94,7 +94,7 @@ const QuranChapter = () => {
     const translations = 21;
     axios
       .get(
-        "http://api.quran.com/api/v3/chapters/" +
+        "https://api.quran.com/api/v3/chapters/" +
           chapter_number +
           "/verses?recitation=" +
           recitation +
