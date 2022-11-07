@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 
 const QuranChapter = () => {
   const { chapter_number } = useParams();
-  console.log(chapter_number);
 
   const [chapter, setChapter] = useState();
   const [verses, setVerses] = useState([]);
@@ -90,7 +89,22 @@ const QuranChapter = () => {
   };
 
   useEffect(() => {
-    getVerses();
+    // getVerses();
+    const recitation = 7;
+    const translations = 21;
+    axios
+      .get(
+        "http://api.quran.com/api/v3/chapters/" +
+          chapter_number +
+          "/verses?recitation=" +
+          recitation +
+          "&translations=" +
+          translations +
+          "&language=en&text_type=words"
+      )
+      .then((res) => {
+        setVerses(res.data.verses);
+      });
   }, []);
 
   const playWholeSurah = () => {
@@ -103,7 +117,36 @@ const QuranChapter = () => {
         setShowControl(true);
       });
   };
+  // console.log(verses[0]);
 
+  const higLightText = (id, segment) => {
+    console.log(id, segment);
+    const childs = document.getElementById(id).children;
+    console.log(segment);
+    segment.forEach((seg, i) => {
+      setInterval(
+        () => {
+          if (segment.length > i) {
+            childs[i].style.color = "#10de5d";
+          }
+        },
+        i === 0 ? 0 : segment[i - 1][3]
+      );
+      // setTimeout(() => {
+      //   childs[i].style.color = "#fff";
+      // }, segment[i][3]);
+    });
+    // let i = 0;
+    // let interval = segment[0][3];
+    // console.log(i);
+    // setInterval(() => {
+    //   if (segment.length > i) {
+    //     childs[i].style.color = "red";
+    //     interval = segment[i][3];
+    //     i++;
+    //   }
+    // }, interval);
+  };
   return (
     <div className="container px-5 text-white font-arabic">
       <div className="flex justify-between items-center">
@@ -113,8 +156,8 @@ const QuranChapter = () => {
           <button
             onClick={() => {
               playWholeSurah(true);
-              audio.audioEl.current.play();
-              setShowControl(true);
+              // audio.audioEl.current.play();
+              // setShowControl(true);
             }}
           >
             Play Audio
@@ -176,7 +219,7 @@ const QuranChapter = () => {
           </div>
         </div>
       )}
-      <div className="space-y-10">
+      <div className="space-y-10 pb-16">
         {verses?.map((verse, i) => (
           <div key={i} className="flex gap-10 border-b border-slate-500 py-5">
             <div className="text-gray-400">
@@ -189,19 +232,26 @@ const QuranChapter = () => {
               ) : ( */}
               <BsPlay
                 onClick={() => {
-                  setCurrentAudio(verse.audio.url);
+                  setCurrentAudio(
+                    "https://audio.qurancdn.com/" + verse.audio.url
+                  );
                   audio.audioEl.current.play();
                   setShowControl(true);
+                  higLightText(i, verse.audio.segments);
                 }}
                 className="text-3xl cursor-pointer"
               />
               {/* )} */}
             </div>
             <div className="flex-grow text-xl">
-              <div className="flex gap-2" dir="rtl">
+              <div id={i} className="flex gap-2" dir="rtl">
                 {verse?.words?.map((word, i) => (
                   <button
-                    onClick={() => setCurrentAudio(word.audio_url)}
+                    onClick={() =>
+                      setCurrentAudio(
+                        "https://audio.qurancdn.com/" + word.audio.url
+                      )
+                    }
                     key={i}
                     className="hover:text-green-400 relative group"
                   >
