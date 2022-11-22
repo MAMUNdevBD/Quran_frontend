@@ -1,10 +1,19 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { HiPause } from "react-icons/hi";
 import { BsPause, BsPlay } from "react-icons/bs";
 import { MdFastForward, MdFastRewind, MdPlayArrow } from "react-icons/md";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+
+const getUrlParameter = (name) => {
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  let regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+  let results = regex.exec(window.location.search);
+  return results === null
+    ? ""
+    : decodeURIComponent(results[1].replace(/\+/g, " "));
+};
 
 const QuranChapter = () => {
   const { chapter_number } = useParams();
@@ -20,42 +29,6 @@ const QuranChapter = () => {
   const [page, setPage] = useState(1);
   const [isNextPage, setIsNextPage] = useState(true);
   const [audios, setAudios] = useState([]);
-
-  const getVerses = async () => {
-    const recitation = 7;
-    const translations = 21;
-    axios
-      .get(
-        "/v1/verses/by_chapter/" +
-          chapter_number +
-          "?language=&page=" +
-          page +
-          "&recitation=" +
-          recitation +
-          "&translations=" +
-          translations
-      )
-      .then(({ data }) => {
-        setVerses(data.verses);
-        const audioUrls = data.verses.map((value) => {
-          return value.audio.url;
-        });
-
-        setAudios(audioUrls);
-      });
-    axios
-      .get(
-        "/v1/chapters/" +
-          chapter_number +
-          "?language=&page=" +
-          page +
-          "&recitation=" +
-          recitation +
-          "&translations=" +
-          translations
-      )
-      .then(({ data }) => setChapter(data.chapter));
-  };
 
   const playAudio = () => {
     audio.audioEl.current.play();
@@ -88,6 +61,17 @@ const QuranChapter = () => {
     }
   };
 
+  const params = useParams();
+
+  const getUrlParameter = (name) => {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    let regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+    let results = regex.exec(window.location.search);
+    return results === null
+      ? ""
+      : decodeURIComponent(results[1].replace(/\+/g, " "));
+  };
+  // console.log();
   useEffect(() => {
     // getVerses();
     const recitation = 7;
@@ -100,7 +84,8 @@ const QuranChapter = () => {
           recitation +
           "&translations=" +
           translations +
-          "&language=en&text_type=words"
+          "&language=en&text_type=words&offset=" +
+          getUrlParameter("verse") ?? 0
       )
       .then((res) => {
         setVerses(res.data.verses);
@@ -117,35 +102,19 @@ const QuranChapter = () => {
         setShowControl(true);
       });
   };
-  // console.log(verses[0]);
 
   const higLightText = (id, segment) => {
     console.log(id, segment);
     const childs = document.getElementById(id).children;
     console.log(segment);
     segment.forEach((seg, i) => {
-      setInterval(
-        () => {
-          if (segment.length > i) {
-            childs[i].style.color = "#10de5d";
-          }
-        },
-        i === 0 ? 0 : segment[i - 1][3]
-      );
-      // setTimeout(() => {
-      //   childs[i].style.color = "#fff";
-      // }, segment[i][3]);
+      setTimeout(() => {
+        childs[i].style.color = "#10de5d";
+      }, segment[i][2]);
+      setTimeout(() => {
+        childs[i].style.color = "#fff";
+      }, segment[i][3]);
     });
-    // let i = 0;
-    // let interval = segment[0][3];
-    // console.log(i);
-    // setInterval(() => {
-    //   if (segment.length > i) {
-    //     childs[i].style.color = "red";
-    //     interval = segment[i][3];
-    //     i++;
-    //   }
-    // }, interval);
   };
   return (
     <div className="container px-5 text-white font-arabic">
@@ -223,13 +192,6 @@ const QuranChapter = () => {
         {verses?.map((verse, i) => (
           <div key={i} className="flex gap-10 border-b border-slate-500 py-5">
             <div className="text-gray-400">
-              {/* {audioPlaying &&
-              audio?.audioEl.current.src === verse.audio.url ? (
-                <BsPause
-                  onClick={() => pauseAudio()}
-                  className="text-3xl cursor-pointer"
-                />
-              ) : ( */}
               <BsPlay
                 onClick={() => {
                   setCurrentAudio(
@@ -241,22 +203,32 @@ const QuranChapter = () => {
                 }}
                 className="text-3xl cursor-pointer"
               />
-              {/* )} */}
             </div>
-            <div className="flex-grow text-xl">
-              <div id={i} className="flex gap-2" dir="rtl">
+            <div className="flex-grow text-2xl">
+              <div
+                id={i}
+                className="flex flex-wrap leading-[3.5rem] gap-2 text-3xl"
+                dir="rtl"
+              >
                 {verse?.words?.map((word, i) => (
                   <button
-                    onClick={() =>
-                      setCurrentAudio(
+                    onClick={() => {
+                      if (
+                        currentAudio ===
                         "https://audio.qurancdn.com/" + word.audio.url
-                      )
-                    }
+                      ) {
+                        audio.audioEl.current.play();
+                      } else {
+                        setCurrentAudio(
+                          "https://audio.qurancdn.com/" + word.audio.url
+                        );
+                      }
+                    }}
                     key={i}
                     className="hover:text-green-400 relative group"
                   >
                     {word.text_madani}
-                    <span className="hidden group-hover:block text-white w-max absolute -top-10 right-0 bg-green-700 rounded-lg px-2">
+                    <span className="hidden group-hover:block text-white text-2xl w-max absolute -top-10 right-0 bg-green-700 rounded-lg px-2">
                       {word.translation.text}
                     </span>
                   </button>

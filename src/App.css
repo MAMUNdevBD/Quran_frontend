@@ -5,6 +5,10 @@
 @tailwind components;
 @tailwind utilities;
 
+em {
+  font-weight: bold;
+}
+
 /* html {
   scroll-behavior: smooth;
 }

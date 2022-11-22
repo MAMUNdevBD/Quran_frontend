@@ -1,8 +1,20 @@
 import { HiOutlineSearch } from "react-icons/hi";
-import React from "react";
+import React, { useState } from "react";
 import SurahList from "../components/surah/SurahList";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
+  const [searchResults, setSearchResults] = useState();
+  const search = (e) => {
+    axios
+      .get(
+        "https://api.quran.com/api/v4/search?size=20&page=0&language=en&q=" +
+          e.target.value
+      )
+      .then((res) => setSearchResults(res.data.search));
+  };
+  console.log(searchResults);
   return (
     <div className="container px-5">
       <div className="py-10">
@@ -18,14 +30,55 @@ const HomePage = () => {
         </svg>
       </div>
       {/* search */}
-      <div className="mb-10">
-        <div className="flex items-center gap-3 mx-auto lg:w-max bg-white rounded-full px-5 py-1">
+      <div className="mb-10 ">
+        <div className="flex items-center gap-3 mx-auto lg:w-max bg-white rounded-full px-5 py-1 relative">
           <HiOutlineSearch className="text-gray-500 text=lg" />
           <input
             type="search"
+            onChange={search}
             placeholder="What do you want to read?"
             className="bg-transparent lg:w-[30rem] py-2 focus:outline-none"
           />
+          {searchResults && (
+            <div className="bg-white absolute top-16 z-50 p-3 rounded left-0 w-full">
+              <div className="text-gray-500">
+                Search result for{" "}
+                <span className="font-semibold">{searchResults.query}</span>
+              </div>
+              <div className="flex flex-col divide-y gap-2">
+                {searchResults.results.map((result, i) => (
+                  <div key={i} className="pt-1">
+                    <Link
+                      to={
+                        "/chapter/" +
+                        result.verse_key?.split(":")[0] +
+                        "?verse=" +
+                        result.verse_key?.split(":")[1]
+                      }
+                    >
+                      {result.highlighted ? (
+                        <div
+                          className=""
+                          dangerouslySetInnerHTML={{
+                            __html: result.highlighted,
+                          }}
+                        />
+                      ) : (
+                        // result.translations?.map((trans, i) => (
+                        <div
+                          key={i}
+                          dangerouslySetInnerHTML={{
+                            __html: result.translations[0].text,
+                          }}
+                        />
+                        // ))
+                      )}
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
