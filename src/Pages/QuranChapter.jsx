@@ -72,6 +72,7 @@ const QuranChapter = () => {
       : decodeURIComponent(results[1].replace(/\+/g, " "));
   };
   // console.log();
+  console.log();
   useEffect(() => {
     // getVerses();
     const recitation = 7;
@@ -85,7 +86,7 @@ const QuranChapter = () => {
           "&translations=" +
           translations +
           "&language=en&text_type=words&offset=" +
-          getUrlParameter("verse") ?? 0
+          (getUrlParameter("verse") ? getUrlParameter("verse") - 1 : 0)
       )
       .then((res) => {
         setVerses(res.data.verses);
